@@ -1,4 +1,4 @@
-package com.example.opinionated.todo;
+package lol.maki.logsink.todo;
 
 import java.util.UUID;
 

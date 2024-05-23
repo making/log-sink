@@ -5,33 +5,33 @@ displayName: Rename project
 recipeList:
 - org.openrewrite.java.ChangePackage:
       oldPackageName: com.example.opinionated
-      newPackageName: foo.bar.demo # <-- change me
+      newPackageName: lol.maki.logsink # <-- change me
       caseSensitive: true
       filePattern: '**/*.java;**/*.properties;**/*.xml'
 - org.openrewrite.text.FindAndReplace:
       find: OpinionatedSpringBootAppApplication
-      replace: DemoAppApplication # <-- change me
+      replace: LogSinkAppApplication # <-- change me
       caseSensitive: true
       filePattern: '**/*.java;**/*.properties;**/*.xml'
 - org.openrewrite.text.FindAndReplace:
       find: com.example
-      replace: foo.bar # <-- change me
+      replace: lol.maki.logsink # <-- change me
       caseSensitive: true
       filePattern: '**/*.java;**/*.properties;**/*.xml'
 - org.openrewrite.text.FindAndReplace:
       find: opinionated-spring-boot-app
-      replace: demo # <-- change me
+      replace: log-sink # <-- change me
       caseSensitive: true
       filePattern: '**/*.java;**/*.properties;**/*.xml'
 - org.openrewrite.text.FindAndReplace:
       find: opinionated
-      replace: demo # <-- change me
+      replace: logsink # <-- change me
       caseSensitive: true
       filePattern: '**/*.java;**/*.properties;**/*.xml'
 - org.openrewrite.RenameFile:
       fileMatcher: '**/OpinionatedSpringBootAppApplication.java'
-      fileName: DemoAppApplication.java # <-- change me
+      fileName: LogSinkAppApplication.java # <-- change me
 - org.openrewrite.RenameFile:
       fileMatcher: '**/TestOpinionatedSpringBootAppApplication.java'
-      fileName: TestDemoAppApplication.java # <-- change me
+      fileName: TestLogSinkAppApplication.java # <-- change me
 - org.openrewrite.java.RemoveUnusedImports

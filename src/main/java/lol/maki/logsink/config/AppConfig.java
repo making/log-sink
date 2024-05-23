@@ -1,4 +1,4 @@
-package com.example.opinionated.config;
+package lol.maki.logsink.config;
 
 import java.time.Duration;
 import java.util.function.Predicate;

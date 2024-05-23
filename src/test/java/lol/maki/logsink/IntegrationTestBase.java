@@ -1,4 +1,4 @@
-package com.example.opinionated;
+package lol.maki.logsink;
 
 import org.junit.jupiter.api.BeforeEach;
 

@@ -8,11 +8,11 @@
 		<version>3.3.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>opinionated-spring-boot-app</artifactId>
+	<groupId>lol.maki.logsink</groupId>
+	<artifactId>log-sink</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>opinionated-spring-boot-app</name>
-	<description>opinionated-spring-boot-app</description>
+	<name>log-sink</name>
+	<description>log-sink</description>
 	<properties>
 		<java.version>21</java.version>
 	</properties>
@@ -99,7 +99,7 @@
 				<configuration>
 					<compilerArgs>
 						<arg>-XDcompilePolicy=simple</arg>
-						<arg>-Xplugin:ErrorProne -Xep:NullAway:ERROR -XepOpt:NullAway:AnnotatedPackages=com.example
+						<arg>-Xplugin:ErrorProne -Xep:NullAway:ERROR -XepOpt:NullAway:AnnotatedPackages=lol.maki.logsink
 							-XepExcludedPaths:(.*/test/java/.*|.*/target/generated-sources/.*)
 						</arg>
 					</compilerArgs>

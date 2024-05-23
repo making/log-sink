@@ -1,4 +1,4 @@
-package com.example.opinionated.problem;
+package lol.maki.logsink.problem;
 
 import java.util.Optional;
 

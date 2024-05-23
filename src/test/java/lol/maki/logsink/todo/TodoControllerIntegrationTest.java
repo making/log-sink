@@ -1,8 +1,8 @@
-package com.example.opinionated.todo;
+package lol.maki.logsink.todo;
 
 import java.net.URI;
 
-import com.example.opinionated.IntegrationTestBase;
+import lol.maki.logsink.IntegrationTestBase;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.boot.test.json.JsonContent;
