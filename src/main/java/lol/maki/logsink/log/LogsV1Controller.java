@@ -21,7 +21,15 @@ public class LogsV1Controller {
 	@PostMapping(path = "/v1/logs", consumes = MediaType.APPLICATION_PROTOBUF_VALUE)
 	public void logs(@RequestBody LogsData logs) throws InvalidProtocolBufferException {
 		System.out.println(JsonFormat.printer().print(logs));
-		String traceId = HexFormat.of().formatHex(logs.getResourceLogsList().getFirst().getScopeLogsList().getFirst().getLogRecordsList().getFirst().getTraceId().toByteArray());
+		String traceId = HexFormat.of()
+			.formatHex(logs.getResourceLogsList()
+				.getFirst()
+				.getScopeLogsList()
+				.getFirst()
+				.getLogRecordsList()
+				.getFirst()
+				.getTraceId()
+				.toByteArray());
 		log.info("Received traceId={}", traceId);
 	}
 
