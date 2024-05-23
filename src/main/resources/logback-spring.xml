@@ -7,7 +7,7 @@
 	<include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 	<include resource="co/elastic/logging/logback/boot/ecs-console-appender.xml"/>
 	<root level="INFO">
-		<appender-ref ref="ECS_JSON_CONSOLE"/>
-		<!--		<appender-ref ref="CONSOLE"/>-->
+<!--		<appender-ref ref="ECS_JSON_CONSOLE"/>-->
+		<appender-ref ref="CONSOLE"/>
 	</root>
 </configuration>
