@@ -25,7 +25,7 @@ recipeList:
       filePattern: '**/*.java;**/*.properties;**/*.xml'
 - org.openrewrite.RenameFile:
       fileMatcher: '**/LogSinkAppApplication.java'
-      fileName: LogReceiverAppApplication.java # <-- change me
+      fileName: LogReceiverAppApplication.java # <-- change me (Main Class Name)
 - org.openrewrite.RenameFile:
       fileMatcher: '**/TestLogSinkAppApplication.java'
       fileName: TestLogReceiverAppApplication.java # <-- change me (Test Main Class)
