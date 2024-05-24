@@ -2,6 +2,8 @@
 
 a tiny OTLP log receiver
 
+* OTLP/HTTP only
+* gzip compression is supported
 
 ## Send a example record
 
