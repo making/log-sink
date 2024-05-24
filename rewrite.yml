@@ -4,34 +4,29 @@ name: com.example.RenameProject
 displayName: Rename project
 recipeList:
 - org.openrewrite.java.ChangePackage:
-      oldPackageName: com.example.opinionated
-      newPackageName: lol.maki.logsink # <-- change me
+      oldPackageName: lol.maki.logsink
+      newPackageName: com.example.logreceiver # <-- change me (Base Package)
       caseSensitive: true
       filePattern: '**/*.java;**/*.properties;**/*.xml'
 - org.openrewrite.text.FindAndReplace:
-      find: OpinionatedSpringBootAppApplication
-      replace: LogSinkAppApplication # <-- change me
+      find: LogSinkAppApplication
+      replace: LogReceiverAppApplication # <-- change me (Main Class Name)
       caseSensitive: true
       filePattern: '**/*.java;**/*.properties;**/*.xml'
 - org.openrewrite.text.FindAndReplace:
-      find: com.example
-      replace: lol.maki.logsink # <-- change me
+      find: lol.maki.logsink
+      replace: com.example.logreceiver # <-- change me (Maven GroupId)
       caseSensitive: true
       filePattern: '**/*.java;**/*.properties;**/*.xml'
 - org.openrewrite.text.FindAndReplace:
-      find: opinionated-spring-boot-app
-      replace: log-sink # <-- change me
-      caseSensitive: true
-      filePattern: '**/*.java;**/*.properties;**/*.xml'
-- org.openrewrite.text.FindAndReplace:
-      find: opinionated
-      replace: logsink # <-- change me
+      find: log-sink
+      replace: log-receiver # <-- change me (Maven ArtifactId)
       caseSensitive: true
       filePattern: '**/*.java;**/*.properties;**/*.xml'
 - org.openrewrite.RenameFile:
-      fileMatcher: '**/OpinionatedSpringBootAppApplication.java'
-      fileName: LogSinkAppApplication.java # <-- change me
+      fileMatcher: '**/LogSinkAppApplication.java'
+      fileName: LogReceiverAppApplication.java # <-- change me
 - org.openrewrite.RenameFile:
-      fileMatcher: '**/TestOpinionatedSpringBootAppApplication.java'
-      fileName: TestLogSinkAppApplication.java # <-- change me
+      fileMatcher: '**/TestLogSinkAppApplication.java'
+      fileName: TestLogReceiverAppApplication.java # <-- change me (Test Main Class)
 - org.openrewrite.java.RemoveUnusedImports
