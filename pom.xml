@@ -55,16 +55,6 @@
 			<version>${protoc.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>2.5.0</version>
-		</dependency>
-		<dependency>
-			<groupId>am.ik.yavi</groupId>
-			<artifactId>yavi</artifactId>
-			<version>0.14.0</version>
-		</dependency>
-		<dependency>
 			<groupId>cc.jilt</groupId>
 			<artifactId>jilt</artifactId>
 			<version>1.5</version>
@@ -73,12 +63,7 @@
 		<dependency>
 			<groupId>am.ik.access-logger</groupId>
 			<artifactId>access-logger</artifactId>
-			<version>0.3.1</version>
-		</dependency>
-		<dependency>
-			<groupId>am.ik.spring</groupId>
-			<artifactId>retryable-client-http-request-interceptor</artifactId>
-			<version>0.4.2</version>
+			<version>0.3.2</version>
 		</dependency>
 		<dependency>
 			<groupId>co.elastic.logging</groupId>

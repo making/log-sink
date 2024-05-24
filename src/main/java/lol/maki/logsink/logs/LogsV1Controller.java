@@ -1,7 +1,5 @@
 package lol.maki.logsink.logs;
 
-import java.util.HexFormat;
-
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.util.JsonFormat;
 import io.opentelemetry.proto.logs.v1.LogsData;
@@ -21,17 +19,7 @@ public class LogsV1Controller {
 	@PostMapping(path = "/v1/logs",
 			consumes = { MediaType.APPLICATION_PROTOBUF_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public void logs(@RequestBody LogsData logs) throws InvalidProtocolBufferException {
-		System.out.println(JsonFormat.printer().print(logs));
-		String traceId = HexFormat.of()
-			.formatHex(logs.getResourceLogsList()
-				.getFirst()
-				.getScopeLogsList()
-				.getFirst()
-				.getLogRecordsList()
-				.getFirst()
-				.getTraceId()
-				.toByteArray());
-		log.info("Received traceId={}", traceId);
+		log.info("Received {}", JsonFormat.printer().omittingInsignificantWhitespace().print(logs));
 	}
 
 }
