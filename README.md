@@ -15,11 +15,13 @@ You'll see the following log output:
 ResourceLogs #0
 Attributes:
 	-> service.name	: "my.service"
+SpanLogs:
 	SpanLogs #0
 	Scope: my.library	1.0.0
 	Attributes:
 		-> my.scope.attribute	: "some scope attribute"
-		Log #0
+	Logs:
+		Logs #0
 			Timestamp	: 2018-12-13T14:51:00.300Z
 			Severity	: Information
 			Body    	: "Example log record"

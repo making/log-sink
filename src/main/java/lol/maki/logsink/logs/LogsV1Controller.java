@@ -30,14 +30,19 @@ public class LogsV1Controller {
 			ResourceLogs resourceLogs = logs.getResourceLogs(i);
 			message.append("ResourceLogs #").append(i).append(System.lineSeparator());
 			Resource resource = resourceLogs.getResource();
-			message.append("Attributes:").append(System.lineSeparator());
-			resource.getAttributesList()
-				.forEach(attribute -> message.append("\t-> ")
-					.append(attribute.getKey())
-					.append("\t: ")
-					.append(any(attribute.getValue()))
-					.append(System.lineSeparator()));
+			if (resource.getAttributesCount() > 0) {
+				message.append("Attributes:").append(System.lineSeparator());
+				resource.getAttributesList()
+					.forEach(attribute -> message.append("\t-> ")
+						.append(attribute.getKey())
+						.append("\t: ")
+						.append(any(attribute.getValue()))
+						.append(System.lineSeparator()));
+			}
 			for (int j = 0; j < resourceLogs.getScopeLogsCount(); j++) {
+				if (j == 0) {
+					message.append("SpanLogs:").append(System.lineSeparator());
+				}
 				ScopeLogs scopeLogs = resourceLogs.getScopeLogs(j);
 				message.append("\tSpanLogs #").append(j).append(System.lineSeparator());
 				InstrumentationScope scope = scopeLogs.getScope();
@@ -46,16 +51,21 @@ public class LogsV1Controller {
 					message.append("\t").append(scope.getVersion());
 				}
 				message.append(System.lineSeparator());
-				message.append("\tAttributes:").append(System.lineSeparator());
-				scope.getAttributesList()
-					.forEach(attribute -> message.append("\t\t-> ")
-						.append(attribute.getKey())
-						.append("\t: ")
-						.append(any(attribute.getValue()))
-						.append(System.lineSeparator()));
+				if (scope.getAttributesCount() > 0) {
+					message.append("\tAttributes:").append(System.lineSeparator());
+					scope.getAttributesList()
+						.forEach(attribute -> message.append("\t\t-> ")
+							.append(attribute.getKey())
+							.append("\t: ")
+							.append(any(attribute.getValue()))
+							.append(System.lineSeparator()));
+				}
 				for (int k = 0; k < scopeLogs.getLogRecordsCount(); k++) {
+					if (k == 0) {
+						message.append("\tLogs:").append(System.lineSeparator());
+					}
 					LogRecord logRecord = scopeLogs.getLogRecords(k);
-					message.append("\t\tLog #").append(k).append(System.lineSeparator());
+					message.append("\t\tLogs #").append(k).append(System.lineSeparator());
 					message.append("\t\t\tTimestamp\t: ")
 						.append(Instant.EPOCH.plusNanos(logRecord.getTimeUnixNano()))
 						.append(System.lineSeparator());
@@ -72,14 +82,15 @@ public class LogsV1Controller {
 						.append(HexFormat.of().formatHex(logRecord.getSpanId().toByteArray()))
 						.append(System.lineSeparator());
 					message.append("\t\t\tFlags   \t: ").append(logRecord.getFlags()).append(System.lineSeparator());
-					;
-					message.append("\t\t\tAttributes\t: ").append(System.lineSeparator());
-					logRecord.getAttributesList()
-						.forEach(attribute -> message.append("\t\t\t\t-> ")
-							.append(attribute.getKey())
-							.append("\t: ")
-							.append(any(attribute.getValue()))
-							.append(System.lineSeparator()));
+					if (logRecord.getAttributesCount() > 0) {
+						message.append("\t\t\tAttributes\t: ").append(System.lineSeparator());
+						logRecord.getAttributesList()
+							.forEach(attribute -> message.append("\t\t\t\t-> ")
+								.append(attribute.getKey())
+								.append("\t: ")
+								.append(any(attribute.getValue()))
+								.append(System.lineSeparator()));
+					}
 				}
 			}
 			System.out.println(message.toString().trim());
