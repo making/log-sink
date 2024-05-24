@@ -1,4 +1,4 @@
-package lol.maki.logsink.log;
+package lol.maki.logsink.logs;
 
 import java.util.HexFormat;
 
