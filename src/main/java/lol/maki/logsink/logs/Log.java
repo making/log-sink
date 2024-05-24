@@ -7,5 +7,5 @@ import org.jilt.Builder;
 
 @Builder
 public record Log(Instant timestamp, String severity, String serviceName, String scope, String body, String traceId,
-		String spanId, int traceFlags, Map<String, Object> attributes, Map<String, Object> resourceAttributes) {
+		String spanId, Map<String, Object> attributes, Map<String, Object> resourceAttributes) {
 }

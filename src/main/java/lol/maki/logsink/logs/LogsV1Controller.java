@@ -68,7 +68,6 @@ public class LogsV1Controller {
 					logBuilder.body(anyToObject(logRecord.getBody()).toString() /* TODO */);
 					logBuilder.traceId(HexFormat.of().formatHex(logRecord.getTraceId().toByteArray()));
 					logBuilder.spanId(HexFormat.of().formatHex(logRecord.getSpanId().toByteArray()));
-					logBuilder.traceFlags(logRecord.getFlags());
 					if (logRecord.getAttributesCount() > 0) {
 						logRecord.getAttributesList()
 							.forEach(
