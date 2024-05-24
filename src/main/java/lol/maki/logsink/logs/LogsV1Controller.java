@@ -14,6 +14,7 @@ import io.opentelemetry.proto.logs.v1.ScopeLogs;
 import io.opentelemetry.proto.resource.v1.Resource;
 
 import org.springframework.http.MediaType;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,11 +43,11 @@ public class LogsV1Controller {
 				ScopeLogs scopeLogs = resourceLogs.getScopeLogs(j);
 				message.append("\tSpanLogs #").append(j).append(System.lineSeparator());
 				InstrumentationScope scope = scopeLogs.getScope();
-				message.append("\tScope: ")
-					.append(scope.getName())
-					.append("\t")
-					.append(scope.getVersion())
-					.append(System.lineSeparator());
+				message.append("\tScope: ").append(scope.getName());
+				if (StringUtils.hasText(scope.getVersion())) {
+					message.append("\t").append(scope.getVersion());
+				}
+				message.append(System.lineSeparator());
 				message.append("\tAttributes:").append(System.lineSeparator());
 				scope.getAttributesList()
 					.forEach(attribute -> message.append("\t\t-> ")
