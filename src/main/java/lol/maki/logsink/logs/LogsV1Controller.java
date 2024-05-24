@@ -18,7 +18,8 @@ public class LogsV1Controller {
 
 	private final Logger log = LoggerFactory.getLogger(LogsV1Controller.class);
 
-	@PostMapping(path = "/v1/logs", consumes = MediaType.APPLICATION_PROTOBUF_VALUE)
+	@PostMapping(path = "/v1/logs",
+			consumes = { MediaType.APPLICATION_PROTOBUF_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public void logs(@RequestBody LogsData logs) throws InvalidProtocolBufferException {
 		System.out.println(JsonFormat.printer().print(logs));
 		String traceId = HexFormat.of()
