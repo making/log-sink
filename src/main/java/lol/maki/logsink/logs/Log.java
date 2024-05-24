@@ -6,6 +6,6 @@ import java.util.Map;
 import org.jilt.Builder;
 
 @Builder
-public record Log(Instant timestamp, String traceId, String spanId, int traceFlags, String severity, String body,
-		Map<String, Object> attributes, String scope, Map<String, Object> resourceAttributes) {
+public record Log(Instant timestamp, String severity, String serviceName, String scope, String body, String traceId,
+		String spanId, int traceFlags, Map<String, Object> attributes, Map<String, Object> resourceAttributes) {
 }

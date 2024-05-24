@@ -8,6 +8,7 @@ import java.util.Map;
 import com.google.protobuf.InvalidProtocolBufferException;
 import io.opentelemetry.proto.common.v1.AnyValue;
 import io.opentelemetry.proto.common.v1.InstrumentationScope;
+import io.opentelemetry.proto.common.v1.KeyValue;
 import io.opentelemetry.proto.logs.v1.LogRecord;
 import io.opentelemetry.proto.logs.v1.LogsData;
 import io.opentelemetry.proto.logs.v1.ResourceLogs;
@@ -26,17 +27,25 @@ public class LogsV1Controller {
 
 	private final Logger logger = LoggerFactory.getLogger(LogsV1Controller.class);
 
+	private static final String SERVICE_NAME_ATTR = "service.name";
+
 	@PostMapping(path = "/v1/logs",
 			consumes = { MediaType.APPLICATION_PROTOBUF_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public void logs(@RequestBody LogsData logs) throws InvalidProtocolBufferException {
 		for (int i = 0; i < logs.getResourceLogsCount(); i++) {
 			ResourceLogs resourceLogs = logs.getResourceLogs(i);
 			Map<String, Object> resourceAttributes = new HashMap<>();
+			String serviceName = "";
 			Resource resource = resourceLogs.getResource();
 			if (resource.getAttributesCount() > 0) {
-				resource.getAttributesList()
-					.forEach(
-							attribute -> resourceAttributes.put(attribute.getKey(), anyToObject(attribute.getValue())));
+				for (KeyValue attribute : resource.getAttributesList()) {
+					if (SERVICE_NAME_ATTR.equals(attribute.getKey())) {
+						serviceName = anyToObject(attribute.getValue()).toString();
+					}
+					else {
+						resourceAttributes.put(attribute.getKey(), anyToObject(attribute.getValue()));
+					}
+				}
 			}
 			for (int j = 0; j < resourceLogs.getScopeLogsCount(); j++) {
 				ScopeLogs scopeLogs = resourceLogs.getScopeLogs(j);
@@ -50,6 +59,7 @@ public class LogsV1Controller {
 				for (int k = 0; k < scopeLogs.getLogRecordsCount(); k++) {
 					LogBuilder logBuilder = LogBuilder.log()
 						.scope(scope.getName())
+						.serviceName(serviceName)
 						.resourceAttributes(resourceAttributes);
 					Map<String, Object> attributes = new HashMap<>(scopeAttributes);
 					LogRecord logRecord = scopeLogs.getLogRecords(k);
@@ -100,35 +110,6 @@ public class LogsV1Controller {
 				.stream()
 				.map(kv -> Map.entry(kv.getKey(), anyToObject(kv.getValue())))
 				.toArray(Map.Entry[]::new));
-		}
-		return "";
-	}
-
-	static String any(AnyValue value) {
-		if (value.hasStringValue()) {
-			return "\"%s\"".formatted(value.getStringValue());
-		}
-		if (value.hasBoolValue()) {
-			return "%s".formatted(value.getBoolValue());
-		}
-		if (value.hasBytesValue()) {
-			return "%s".formatted(value.getBytesValue());
-		}
-		if (value.hasIntValue()) {
-			return "%d".formatted(value.getIntValue());
-		}
-		if (value.hasDoubleValue()) {
-			return "%s".formatted(value.getDoubleValue());
-		}
-		if (value.hasArrayValue()) {
-			return "%s".formatted(value.getArrayValue().getValuesList().stream().map(LogsV1Controller::any).toList());
-		}
-		if (value.hasKvlistValue()) {
-			return "%s".formatted(Map.ofEntries(value.getKvlistValue()
-				.getValuesList()
-				.stream()
-				.map(kv -> Map.entry(kv.getKey(), any(kv.getValue())))
-				.toArray(Map.Entry[]::new)));
 		}
 		return "";
 	}
