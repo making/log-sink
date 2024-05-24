@@ -62,7 +62,7 @@ public class LogsV1Controller {
 					LogRecord logRecord = scopeLogs.getLogRecords(k);
 					message.append("    Log #").append(k).append(System.lineSeparator());
 					message.append("      Timestamp: ")
-						.append(Instant.ofEpochMilli(logRecord.getTimeUnixNano() / 1_000_1000))
+						.append(Instant.ofEpochMilli(logRecord.getTimeUnixNano() / 1_000_000))
 						.append(System.lineSeparator());
 					message.append("      Severity: ")
 						.append(logRecord.getSeverityText())

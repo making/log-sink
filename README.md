@@ -20,7 +20,7 @@ Resource attributes:
   Scope attributes:
     -> my.scope.attribute : some scope attribute
     Log #0
-      Timestamp: 1974-11-23T16:23:40.447Z
+      Timestamp: 2018-12-13T14:51:00.300Z
       Severity: Information
       Body:  Example log record
       Trace ID: e41f0414517bf7cd37f35d370f6ebd07adf7f35dc50bad02
