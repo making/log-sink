@@ -3,6 +3,7 @@
 a tiny OTLP log receiver
 
 * OTLP/HTTP only
+* Protocol Buffers and JSON are supported
 * gzip compression is supported
 
 ## Send a example record
