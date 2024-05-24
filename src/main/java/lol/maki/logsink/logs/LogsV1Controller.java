@@ -33,7 +33,7 @@ public class LogsV1Controller {
 			if (resource.getAttributesCount() > 0) {
 				message.append("Attributes:").append(System.lineSeparator());
 				resource.getAttributesList()
-					.forEach(attribute -> message.append("\t-> ")
+					.forEach(attribute -> message.append("\t")
 						.append(attribute.getKey())
 						.append("\t: ")
 						.append(any(attribute.getValue()))
@@ -54,7 +54,7 @@ public class LogsV1Controller {
 				if (scope.getAttributesCount() > 0) {
 					message.append("\tAttributes:").append(System.lineSeparator());
 					scope.getAttributesList()
-						.forEach(attribute -> message.append("\t\t-> ")
+						.forEach(attribute -> message.append("\t\t")
 							.append(attribute.getKey())
 							.append("\t: ")
 							.append(any(attribute.getValue()))
@@ -85,7 +85,7 @@ public class LogsV1Controller {
 					if (logRecord.getAttributesCount() > 0) {
 						message.append("\t\t\tAttributes\t: ").append(System.lineSeparator());
 						logRecord.getAttributesList()
-							.forEach(attribute -> message.append("\t\t\t\t-> ")
+							.forEach(attribute -> message.append("\t\t\t\t")
 								.append(attribute.getKey())
 								.append("\t: ")
 								.append(any(attribute.getValue()))

@@ -14,12 +14,12 @@ You'll see the following log output:
 ```
 ResourceLogs #0
 Attributes:
-	-> service.name	: "my.service"
+	service.name	: "my.service"
 SpanLogs:
 	SpanLogs #0
 	Scope: my.library	1.0.0
 	Attributes:
-		-> my.scope.attribute	: "some scope attribute"
+		my.scope.attribute	: "some scope attribute"
 	Logs:
 		Logs #0
 			Timestamp	: 2018-12-13T14:51:00.300Z
@@ -29,12 +29,12 @@ SpanLogs:
 			Span ID 	: 104135f41ec40b70b5075ef8
 			Flags   	: 0
 			Attributes	: 
-				-> string.attribute	: "some string"
-				-> boolean.attribute	: true
-				-> int.attribute	: 10
-				-> double.attribute	: 637.704
-				-> array.attribute	: ["many", "values"]
-				-> map.attribute	: {some.map.key="some value"}
+				string.attribute	: "some string"
+				boolean.attribute	: true
+				int.attribute	: 10
+				double.attribute	: 637.704
+				array.attribute	: ["many", "values"]
+				map.attribute	: {some.map.key="some value"}
 ```
 
 ## How to rename the project
