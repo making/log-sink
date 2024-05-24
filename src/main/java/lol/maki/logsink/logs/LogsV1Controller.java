@@ -1,6 +1,7 @@
 package lol.maki.logsink.logs;
 
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.HexFormat;
 import java.util.Map;
 
@@ -12,9 +13,10 @@ import io.opentelemetry.proto.logs.v1.LogsData;
 import io.opentelemetry.proto.logs.v1.ResourceLogs;
 import io.opentelemetry.proto.logs.v1.ScopeLogs;
 import io.opentelemetry.proto.resource.v1.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.http.MediaType;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,79 +24,84 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LogsV1Controller {
 
+	private final Logger logger = LoggerFactory.getLogger(LogsV1Controller.class);
+
 	@PostMapping(path = "/v1/logs",
 			consumes = { MediaType.APPLICATION_PROTOBUF_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public void logs(@RequestBody LogsData logs) throws InvalidProtocolBufferException {
-		StringBuilder message = new StringBuilder();
 		for (int i = 0; i < logs.getResourceLogsCount(); i++) {
 			ResourceLogs resourceLogs = logs.getResourceLogs(i);
-			message.append("ResourceLogs #").append(i).append(System.lineSeparator());
+			Map<String, Object> resourceAttributes = new HashMap<>();
 			Resource resource = resourceLogs.getResource();
 			if (resource.getAttributesCount() > 0) {
-				message.append("Attributes:").append(System.lineSeparator());
 				resource.getAttributesList()
-					.forEach(attribute -> message.append("\t")
-						.append(attribute.getKey())
-						.append("\t: ")
-						.append(any(attribute.getValue()))
-						.append(System.lineSeparator()));
+					.forEach(
+							attribute -> resourceAttributes.put(attribute.getKey(), anyToObject(attribute.getValue())));
 			}
 			for (int j = 0; j < resourceLogs.getScopeLogsCount(); j++) {
-				if (j == 0) {
-					message.append("SpanLogs:").append(System.lineSeparator());
-				}
 				ScopeLogs scopeLogs = resourceLogs.getScopeLogs(j);
-				message.append("\tSpanLogs #").append(j).append(System.lineSeparator());
+				Map<String, Object> scopeAttributes = new HashMap<>();
 				InstrumentationScope scope = scopeLogs.getScope();
-				message.append("\tScope: ").append(scope.getName());
-				if (StringUtils.hasText(scope.getVersion())) {
-					message.append("\t").append(scope.getVersion());
-				}
-				message.append(System.lineSeparator());
 				if (scope.getAttributesCount() > 0) {
-					message.append("\tAttributes:").append(System.lineSeparator());
 					scope.getAttributesList()
-						.forEach(attribute -> message.append("\t\t")
-							.append(attribute.getKey())
-							.append("\t: ")
-							.append(any(attribute.getValue()))
-							.append(System.lineSeparator()));
+						.forEach(attribute -> scopeAttributes.put(attribute.getKey(),
+								anyToObject(attribute.getValue())));
 				}
 				for (int k = 0; k < scopeLogs.getLogRecordsCount(); k++) {
-					if (k == 0) {
-						message.append("\tLogs:").append(System.lineSeparator());
-					}
+					LogBuilder logBuilder = LogBuilder.log()
+						.scope(scope.getName())
+						.resourceAttributes(resourceAttributes);
+					Map<String, Object> attributes = new HashMap<>(scopeAttributes);
 					LogRecord logRecord = scopeLogs.getLogRecords(k);
-					message.append("\t\tLogs #").append(k).append(System.lineSeparator());
-					message.append("\t\t\tTimestamp\t: ")
-						.append(Instant.EPOCH.plusNanos(logRecord.getTimeUnixNano()))
-						.append(System.lineSeparator());
-					message.append("\t\t\tSeverity\t: ")
-						.append(logRecord.getSeverityText())
-						.append(System.lineSeparator());
-					message.append("\t\t\tBody    \t: ")
-						.append(any(logRecord.getBody()))
-						.append(System.lineSeparator());
-					message.append("\t\t\tTrace ID\t: ")
-						.append(HexFormat.of().formatHex(logRecord.getTraceId().toByteArray()))
-						.append(System.lineSeparator());
-					message.append("\t\t\tSpan ID \t: ")
-						.append(HexFormat.of().formatHex(logRecord.getSpanId().toByteArray()))
-						.append(System.lineSeparator());
-					message.append("\t\t\tFlags   \t: ").append(logRecord.getFlags()).append(System.lineSeparator());
+					logBuilder.timestamp(Instant.EPOCH.plusNanos(logRecord.getTimeUnixNano()));
+					logBuilder.severity(logRecord.getSeverityText());
+					logBuilder.body(anyToObject(logRecord.getBody()).toString() /* TODO */);
+					logBuilder.traceId(HexFormat.of().formatHex(logRecord.getTraceId().toByteArray()));
+					logBuilder.spanId(HexFormat.of().formatHex(logRecord.getSpanId().toByteArray()));
+					logBuilder.traceFlags(logRecord.getFlags());
 					if (logRecord.getAttributesCount() > 0) {
-						message.append("\t\t\tAttributes\t: ").append(System.lineSeparator());
 						logRecord.getAttributesList()
-							.forEach(attribute -> message.append("\t\t\t\t")
-								.append(attribute.getKey())
-								.append("\t: ")
-								.append(any(attribute.getValue()))
-								.append(System.lineSeparator()));
+							.forEach(
+									attribute -> attributes.put(attribute.getKey(), anyToObject(attribute.getValue())));
+						logBuilder.attributes(attributes);
 					}
+					else {
+						logBuilder.attributes(Map.of());
+					}
+					logger.info("Received: {}", logBuilder.build());
 				}
 			}
-			System.out.println(message.toString().trim());
 		}
+	}
+
+	static Object anyToObject(AnyValue value) {
+		AnyValue.ValueCase valueCase = value.getValueCase();
+		if (value.hasStringValue()) {
+			return value.getStringValue();
+		}
+		if (value.hasBoolValue()) {
+			return value.getBoolValue();
+		}
+		if (value.hasBytesValue()) {
+			return value.getBytesValue().toByteArray();
+		}
+		if (value.hasIntValue()) {
+			return value.getIntValue();
+		}
+		if (value.hasDoubleValue()) {
+			return value.getDoubleValue();
+		}
+		if (value.hasArrayValue()) {
+			return value.getArrayValue().getValuesList().stream().map(LogsV1Controller::anyToObject).toList();
+		}
+		if (value.hasKvlistValue()) {
+			return Map.ofEntries(value.getKvlistValue()
+				.getValuesList()
+				.stream()
+				.map(kv -> Map.entry(kv.getKey(), anyToObject(kv.getValue())))
+				.toArray(Map.Entry[]::new));
+		}
+		return "";
 	}
 
 	static String any(AnyValue value) {

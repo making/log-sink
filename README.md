@@ -15,29 +15,7 @@ cat src/test/resources/logs.json | curl -H "Content-Type: application/json" -s h
 You'll see the following log output:
 
 ```
-ResourceLogs #0
-Attributes:
-	service.name	: "my.service"
-SpanLogs:
-	SpanLogs #0
-	Scope: my.library	1.0.0
-	Attributes:
-		my.scope.attribute	: "some scope attribute"
-	Logs:
-		Logs #0
-			Timestamp	: 2018-12-13T14:51:00.300Z
-			Severity	: Information
-			Body    	: "Example log record"
-			Trace ID	: e41f0414517bf7cd37f35d370f6ebd07adf7f35dc50bad02
-			Span ID 	: 104135f41ec40b70b5075ef8
-			Flags   	: 0
-			Attributes	: 
-				string.attribute	: "some string"
-				boolean.attribute	: true
-				int.attribute	: 10
-				double.attribute	: 637.704
-				array.attribute	: ["many", "values"]
-				map.attribute	: {some.map.key="some value"}
+{"@timestamp":"2024-05-24T11:57:30.421Z","log.level": "INFO","message":"Received: Log[timestamp=2018-12-13T14:51:00.300Z, traceId=e41f0414517bf7cd37f35d370f6ebd07adf7f35dc50bad02, spanId=104135f41ec40b70b5075ef8, traceFlags=0, severity=Information, body=Example log record, attributes={int.attribute=10, array.attribute=[many, values], double.attribute=637.704, string.attribute=some string, map.attribute={some.map.key=some value}, boolean.attribute=true, my.scope.attribute=some scope attribute}, scope=my.library, resourceAttributes={service.name=my.service}]","ecs.version": "1.2.0","service.name":"log-sink","event.dataset":"log-sink","process.thread.name":"jetty-2","log.logger":"lol.maki.logsink.logs.LogsV1Controller","traceId":"424663af6ddca1070b3cbb9369a8b95d","spanId":"c9e44d14dc12a817"}
 ```
 
 ## How to rename the project
