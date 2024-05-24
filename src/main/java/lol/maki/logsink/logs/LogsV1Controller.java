@@ -25,8 +25,6 @@ public class LogsV1Controller {
 	@PostMapping(path = "/v1/logs",
 			consumes = { MediaType.APPLICATION_PROTOBUF_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public void logs(@RequestBody LogsData logs) throws InvalidProtocolBufferException {
-		// log.info("Received {}",
-		// JsonFormat.printer().omittingInsignificantWhitespace().print(logs));
 		StringBuilder message = new StringBuilder();
 		for (int i = 0; i < logs.getResourceLogsCount(); i++) {
 			ResourceLogs resourceLogs = logs.getResourceLogs(i);
