@@ -15,7 +15,7 @@ cat src/test/resources/logs.json | curl -H "Content-Type: application/json" -s h
 You'll see the following log output:
 
 ```
-{"@timestamp":"2024-05-24T12:10:52.537Z","log.level": "INFO","message":"Received: Log[timestamp=2018-12-13T14:51:00.300Z, severity=Information, serviceName=my.service, scope=my.library, body=Example log record, traceId=e41f0414517bf7cd37f35d370f6ebd07adf7f35dc50bad02, spanId=104135f41ec40b70b5075ef8, traceFlags=0, attributes={int.attribute=10, array.attribute=[many, values], double.attribute=637.704, string.attribute=some string, map.attribute={some.map.key=some value}, boolean.attribute=true, my.scope.attribute=some scope attribute}, resourceAttributes={}]","ecs.version": "1.2.0","service.name":"log-sink","event.dataset":"log-sink","process.thread.name":"jetty-0","log.logger":"lol.maki.logsink.logs.LogsV1Controller","traceId":"a0562aded25f08a6dddd7cf43edfdbb3","spanId":"f8e0113fed7e1201"}
+{"@timestamp":"2024-05-24T12:35:07.403Z","log.level": "INFO","message":"Received: Log[timestamp=2018-12-13T14:51:00.300Z, severity=Information, serviceName=my.service, scope=my.library, body=Example log record, traceId=e41f0414517bf7cd37f35d370f6ebd07adf7f35dc50bad02, spanId=104135f41ec40b70b5075ef8, attributes={int.attribute=10, array.attribute=[many, values], double.attribute=637.704, string.attribute=some string, map.attribute={some.map.key=some value}, boolean.attribute=true, my.scope.attribute=some scope attribute}, resourceAttributes={}]","ecs.version": "1.2.0","service.name":"log-sink","event.dataset":"log-sink","process.thread.name":"jetty-0","log.logger":"lol.maki.logsink.logs.LogsV1Controller","traceId":"8526466c9726900f784b2aad01ef9eca","spanId":"21a72f7dc28ffbbe"}
 ```
 
 ## How to rename the project
