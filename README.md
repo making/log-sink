@@ -2,9 +2,9 @@
 
 a tiny OTLP log receiver
 
-* OTLP/HTTP only
-* Protocol Buffers and JSON are supported
-* gzip compression is supported
+* Supports OTLP/HTTP (No Grpc)
+* Compatible with both Protocol Buffers and JSON
+* Gzip compression supported
 
 ## Send a example record
 
