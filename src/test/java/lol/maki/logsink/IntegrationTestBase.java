@@ -1,6 +1,7 @@
 package lol.maki.logsink;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.zalando.logbook.spring.LogbookClientHttpRequestInterceptor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,11 +12,15 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestClient;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+		properties = { "logging.logback.ecs-encoder.enabled=false" })
 public abstract class IntegrationTestBase {
 
 	@Autowired
 	protected RestClient.Builder restClientBuilder;
+
+	@Autowired
+	LogbookClientHttpRequestInterceptor logbookClientHttpRequestInterceptor;
 
 	protected RestClient restClient;
 
@@ -34,6 +39,7 @@ public abstract class IntegrationTestBase {
 
 					}
 				})
+				.requestInterceptor(this.logbookClientHttpRequestInterceptor)
 				.build();
 		}
 	}
