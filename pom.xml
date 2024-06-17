@@ -57,7 +57,7 @@
 		<dependency>
 			<groupId>cc.jilt</groupId>
 			<artifactId>jilt</artifactId>
-			<version>1.5</version>
+			<version>1.6</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -146,7 +146,7 @@
 						<path>
 							<groupId>cc.jilt</groupId>
 							<artifactId>jilt</artifactId>
-							<version>1.5</version>
+							<version>1.6</version>
 						</path>
 						<path>
 							<groupId>com.google.errorprone</groupId>
