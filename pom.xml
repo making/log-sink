@@ -15,7 +15,7 @@
 	<description>log-sink</description>
 	<properties>
 		<java.version>21</java.version>
-		<protoc.version>4.27.3</protoc.version>
+		<protoc.version>4.28.3</protoc.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -45,9 +45,9 @@
 			<artifactId>jetty-alpn-java-server</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.google.protobuf</groupId>
-			<artifactId>protobuf-java</artifactId>
-			<version>${protoc.version}</version>
+			<groupId>io.opentelemetry.proto</groupId>
+			<artifactId>opentelemetry-proto</artifactId>
+			<version>1.4.0-alpha</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.protobuf</groupId>
@@ -114,24 +114,6 @@
 			</extension>
 		</extensions>
 		<plugins>
-			<plugin>
-				<groupId>org.xolstice.maven.plugins</groupId>
-				<artifactId>protobuf-maven-plugin</artifactId>
-				<version>0.6.1</version>
-				<extensions>true</extensions>
-				<configuration>
-					<protocArtifact>com.google.protobuf:protoc:${protoc.version}:exe:${os.detected.classifier}
-					</protocArtifact>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-							<goal>test-compile</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
