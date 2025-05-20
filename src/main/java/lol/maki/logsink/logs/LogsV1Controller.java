@@ -82,32 +82,21 @@ public class LogsV1Controller {
 
 	static Object anyToObject(AnyValue value) {
 		AnyValue.ValueCase valueCase = value.getValueCase();
-		if (value.hasStringValue()) {
-			return value.getStringValue();
-		}
-		if (value.hasBoolValue()) {
-			return value.getBoolValue();
-		}
-		if (value.hasBytesValue()) {
-			return value.getBytesValue().toByteArray();
-		}
-		if (value.hasIntValue()) {
-			return value.getIntValue();
-		}
-		if (value.hasDoubleValue()) {
-			return value.getDoubleValue();
-		}
-		if (value.hasArrayValue()) {
-			return value.getArrayValue().getValuesList().stream().map(LogsV1Controller::anyToObject).toList();
-		}
-		if (value.hasKvlistValue()) {
-			return Map.ofEntries(value.getKvlistValue()
+		return switch (valueCase) {
+			case STRING_VALUE -> value.getStringValue();
+			case BOOL_VALUE -> value.getBoolValue();
+			case BYTES_VALUE -> value.getBytesValue().toByteArray();
+			case INT_VALUE -> value.getIntValue();
+			case DOUBLE_VALUE -> value.getDoubleValue();
+			case ARRAY_VALUE ->
+				value.getArrayValue().getValuesList().stream().map(LogsV1Controller::anyToObject).toList();
+			case KVLIST_VALUE -> Map.ofEntries(value.getKvlistValue()
 				.getValuesList()
 				.stream()
 				.map(kv -> Map.entry(kv.getKey(), anyToObject(kv.getValue())))
 				.toArray(Map.Entry[]::new));
-		}
-		return "";
+			case VALUE_NOT_SET -> "";
+		};
 	}
 
 }
