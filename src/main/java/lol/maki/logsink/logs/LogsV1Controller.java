@@ -1,11 +1,5 @@
 package lol.maki.logsink.logs;
 
-import java.time.Instant;
-import java.util.HashMap;
-import java.util.HexFormat;
-import java.util.Map;
-
-import com.google.protobuf.InvalidProtocolBufferException;
 import io.opentelemetry.proto.common.v1.AnyValue;
 import io.opentelemetry.proto.common.v1.InstrumentationScope;
 import io.opentelemetry.proto.common.v1.KeyValue;
@@ -14,9 +8,12 @@ import io.opentelemetry.proto.logs.v1.LogsData;
 import io.opentelemetry.proto.logs.v1.ResourceLogs;
 import io.opentelemetry.proto.logs.v1.ScopeLogs;
 import io.opentelemetry.proto.resource.v1.Resource;
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.HexFormat;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +28,7 @@ public class LogsV1Controller {
 
 	@PostMapping(path = "/v1/logs",
 			consumes = { MediaType.APPLICATION_PROTOBUF_VALUE, MediaType.APPLICATION_JSON_VALUE })
-	public void logs(@RequestBody LogsData logs) throws InvalidProtocolBufferException {
+	public void logs(@RequestBody LogsData logs) {
 		for (int i = 0; i < logs.getResourceLogsCount(); i++) {
 			ResourceLogs resourceLogs = logs.getResourceLogs(i);
 			Map<String, Object> resourceAttributes = new HashMap<>();
